@@ -15,12 +15,13 @@ const customInspectSymbol =
 		? Symbol["for"]("nodejs.util.inspect.custom") // eslint-disable-line dot-notation
 		: null;
 
-exports.Buffer = Buffer;
-exports.SlowBuffer = SlowBuffer;
-exports.INSPECT_MAX_BYTES = 50;
+const INSPECT_MAX_BYTES = 50;
+
+export { INSPECT_MAX_BYTES, Buffer, SlowBuffer };
 
 const K_MAX_LENGTH = 0x7fffffff;
-exports.kMaxLength = K_MAX_LENGTH;
+
+export { K_MAX_LENGTH as kMaxLength };
 
 /**
  * Not used internally, but exported to maintain api compatability
@@ -31,17 +32,15 @@ exports.kMaxLength = K_MAX_LENGTH;
  * @see https://github.com/nodejs/node/blob/main/lib/buffer.js#L142
  */
 const K_STRING_MAX_LENGTH = (1 << 28) - 16;
-exports.kStringMaxLength = K_STRING_MAX_LENGTH;
 
-exports.constants = {
+export { K_STRING_MAX_LENGTH as kStringMaxLength };
+
+const constants = {
 	MAX_LENGTH: K_MAX_LENGTH,
 	MAX_STRING_LENGTH: K_STRING_MAX_LENGTH,
 };
 
-exports.Blob = typeof Blob !== "undefined" ? Blob : undefined;
-exports.File = typeof File !== "undefined" ? File : undefined;
-exports.atob = typeof atob !== "undefined" ? atob : undefined;
-exports.btoa = typeof btoa !== "undefined" ? btoa : undefined;
+export { constants };
 
 /**
  * If `Buffer.TYPED_ARRAY_SUPPORT`:
@@ -638,7 +637,7 @@ Buffer.prototype.equals = function equals(b) {
 
 Buffer.prototype.inspect = function inspect() {
 	let str = "";
-	const max = exports.INSPECT_MAX_BYTES;
+	const max = INSPECT_MAX_BYTES;
 	str = this.toString("hex", 0, max)
 		.replace(/(.{2})/g, "$1 ")
 		.trim();
