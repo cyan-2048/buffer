@@ -1217,49 +1217,9 @@ Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
     this[offset + 3])
 }
 
-Buffer.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE (offset) {
-  offset = offset >>> 0
-  validateNumber(offset, 'offset')
-  const first = this[offset]
-  const last = this[offset + 7]
-  if (first === undefined || last === undefined) {
-    boundsError(offset, this.length - 8)
-  }
+Buffer.prototype.readBigUInt64LE = defineBigIntMethod(null)
 
-  const lo = first +
-    this[++offset] * 2 ** 8 +
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 24
-
-  const hi = this[++offset] +
-    this[++offset] * 2 ** 8 +
-    this[++offset] * 2 ** 16 +
-    last * 2 ** 24
-
-  return BigInt(lo) + (BigInt(hi) << BigInt(32))
-})
-
-Buffer.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE (offset) {
-  offset = offset >>> 0
-  validateNumber(offset, 'offset')
-  const first = this[offset]
-  const last = this[offset + 7]
-  if (first === undefined || last === undefined) {
-    boundsError(offset, this.length - 8)
-  }
-
-  const hi = first * 2 ** 24 +
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 8 +
-    this[++offset]
-
-  const lo = this[++offset] * 2 ** 24 +
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 8 +
-    last
-
-  return (BigInt(hi) << BigInt(32)) + BigInt(lo)
-})
+Buffer.prototype.readBigUInt64BE = defineBigIntMethod(null)
 
 Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
   offset = offset >>> 0
@@ -1338,47 +1298,9 @@ Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
     (this[offset + 3])
 }
 
-Buffer.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE (offset) {
-  offset = offset >>> 0
-  validateNumber(offset, 'offset')
-  const first = this[offset]
-  const last = this[offset + 7]
-  if (first === undefined || last === undefined) {
-    boundsError(offset, this.length - 8)
-  }
+Buffer.prototype.readBigInt64LE = defineBigIntMethod(null)
 
-  const val = this[offset + 4] +
-    this[offset + 5] * 2 ** 8 +
-    this[offset + 6] * 2 ** 16 +
-    (last << 24) // Overflow
-
-  return (BigInt(val) << BigInt(32)) +
-    BigInt(first +
-    this[++offset] * 2 ** 8 +
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 24)
-})
-
-Buffer.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE (offset) {
-  offset = offset >>> 0
-  validateNumber(offset, 'offset')
-  const first = this[offset]
-  const last = this[offset + 7]
-  if (first === undefined || last === undefined) {
-    boundsError(offset, this.length - 8)
-  }
-
-  const val = (first << 24) + // Overflow
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 8 +
-    this[++offset]
-
-  return (BigInt(val) << BigInt(32)) +
-    BigInt(this[++offset] * 2 ** 24 +
-    this[++offset] * 2 ** 16 +
-    this[++offset] * 2 ** 8 +
-    last)
-})
+Buffer.prototype.readBigInt64BE = defineBigIntMethod(null)
 
 Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
   offset = offset >>> 0
@@ -1547,13 +1469,9 @@ function wrtBigUInt64BE (buf, value, offset, min, max) {
   return offset + 8
 }
 
-Buffer.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE (value, offset = 0) {
-  return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'))
-})
+Buffer.prototype.writeBigUInt64LE = defineBigIntMethod(null)
 
-Buffer.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE (value, offset = 0) {
-  return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'))
-})
+Buffer.prototype.writeBigUInt64BE = defineBigIntMethod(null)
 
 Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
   value = +value
@@ -1651,13 +1569,9 @@ Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) 
   return offset + 4
 }
 
-Buffer.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE (value, offset = 0) {
-  return wrtBigUInt64LE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'))
-})
+Buffer.prototype.writeBigInt64LE = defineBigIntMethod(null)
 
-Buffer.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE (value, offset = 0) {
-  return wrtBigUInt64BE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'))
-})
+Buffer.prototype.writeBigInt64BE = defineBigIntMethod(null)
 
 function checkIEEE754 (buf, value, offset, ext, max, min) {
   if (offset + ext > buf.length) throw new RangeError('Index out of range')
