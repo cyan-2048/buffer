@@ -2011,3 +2011,5 @@ function defineBigIntMethod(fn) {
 function BufferBigIntNotDefined() {
 	throw new Error("BigInt not supported");
 }
+
+Object.assign(window, { Buffer });
